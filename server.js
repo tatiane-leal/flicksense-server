@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectToDatabase = require("./config/dbConn");
-// const User = require("./model/User");
 const corsOptions = require('./config/corsOptions');
 const verifyJWT = require('./middleware/verifyJWT');
 const cookieParser = require('cookie-parser');
@@ -40,6 +39,8 @@ app.use('/refresh', require('./routes/refresh'));
 
 // app.use(verifyJWT);
 app.use('/users', require('./routes/users'));
+app.use('/profile', require('./routes/profile'));
+app.use('/post', require('./routes/post'));
 
 app.get("/posts", (req, res) => {
   res.send(posts);

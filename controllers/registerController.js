@@ -6,11 +6,13 @@ const handleNewUser = async (req, res) => {
   console.log("user, password? ", email, password);
 
   if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required." });
+    return res
+      .status(400)
+      .json({ message: "Email and password are required." });
   }
 
   // Check if user already exists
-  const duplicate = await User.findOne({ "email": email }).exec();
+  const duplicate = await User.findOne({ email: email }).exec();
 
   if (duplicate) return res.sendStatus(409); // Conflict
 
@@ -19,17 +21,16 @@ const handleNewUser = async (req, res) => {
     const hashedPwd = await bcrypt.hash(password, 10);
 
     // Create and Store the new user
-    const result = await User.create({ 
-      "email": email,
-      "password": hashedPwd
-     });
+    const result = await User.create({
+      email: email,
+      password: hashedPwd,
+    });
 
-     console.log(result);
+    console.log(result);
 
-    res.status(201).json({"success": `New user ${email} created!`});
-
+    res.status(201).json({ success: `New user ${email} created!` });
   } catch (err) {
-    res.status(500).json({ "message": err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 

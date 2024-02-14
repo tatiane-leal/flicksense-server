@@ -36,8 +36,9 @@ app.use(cookieParser());
 app.use("/register", require("./routes/register"));
 app.use("/login", require("./routes/login")); // authenticate
 app.use('/refresh', require('./routes/refresh'));
+app.use('/logout', require('./routes/logout'));
 
-// app.use(verifyJWT);
+app.use(verifyJWT);
 app.use('/users', require('./routes/users'));
 app.use('/profile', require('./routes/profile'));
 app.use('/post', require('./routes/post'));

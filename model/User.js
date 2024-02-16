@@ -39,6 +39,11 @@ const userSchema = new Schema({
       video: { type: Boolean },
       vote_average: { type: Number },
       vote_count: { type: Number },
+      sentiment_result: {
+        isHappy: Boolean,
+        isNeutral: Boolean,
+        isSad: Boolean,
+      },
     },
   ],
   refreshToken: String,

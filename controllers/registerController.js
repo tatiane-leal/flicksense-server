@@ -2,13 +2,13 @@ const User = require("../model/User");
 const bcrypt = require("bcrypt");
 
 const handleNewUser = async (req, res) => {
-  const { email, password } = req.body;
-  console.log("user, password? ", email, password);
+  const { name, email, password } = req.body;
+  console.log("name, email, password? ", name, email, password);
 
-  if (!email || !password) {
+  if (!name || !email || !password) {
     return res
       .status(400)
-      .json({ message: "Email and password are required." });
+      .json({ message: "Name, email and password are required." });
   }
 
   // Check if user already exists
@@ -22,6 +22,7 @@ const handleNewUser = async (req, res) => {
 
     // Create and Store the new user
     const result = await User.create({
+      name: name,
       email: email,
       password: hashedPwd,
     });

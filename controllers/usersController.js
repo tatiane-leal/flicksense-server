@@ -1,16 +1,3 @@
-// const User = require("../model/User");
-
-// const handleUsers = async (req, res) => {
-//   try {
-//     // Include only email and roles in the json response
-//     const users = await User.find({}, { email: 1, roles: 1, movies: 1 }).exec();
-//     res.json(users);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
-// module.exports = { handleUsers };
 const User = require("../model/User");
 
 const getAllUsers = async (req, res) => {
@@ -19,15 +6,18 @@ const getAllUsers = async (req, res) => {
   res.json(users);
 };
 
-// const deleteUser = async (req, res) => {
-//     if (!req?.body?.id) return res.status(400).json({ "message": 'User ID required' });
-//     const user = await User.findOne({ _id: req.body.id }).exec();
-//     if (!user) {
-//         return res.status(204).json({ 'message': `User ID ${req.body.id} not found` });
-//     }
-//     const result = await user.deleteOne({ _id: req.body.id });
-//     res.json(result);
-// }
+const deleteUser = async (req, res) => {
+  if (!req?.body?.id)
+    return res.status(400).json({ message: "User ID required" });
+  const user = await User.findOne({ _id: req.body.id }).exec();
+  if (!user) {
+    return res
+      .status(204)
+      .json({ message: `User ID ${req.body.id} not found` });
+  }
+  const result = await user.deleteOne({ _id: req.body.id });
+  res.json(result);
+};
 
 const updateUser = async (req, res) => {
   if (!req?.body?.id) {
@@ -62,8 +52,8 @@ const getUser = async (req, res) => {
 };
 
 const updateMovieSentiment = async (req, res) => {
-  const { userId, movieId } = req.params; // Correto: Usar req.params para userId e movieId
-  const { sentiment_result } = req.body; // sentiment_result ainda vem do corpo da requisição
+  const { userId, movieId } = req.params;
+  const { sentiment_result } = req.body;
 
   if (!userId || !movieId || !sentiment_result) {
     return res
@@ -78,7 +68,7 @@ const updateMovieSentiment = async (req, res) => {
       return res.status(204).json({ message: `No user matches ID ${userId}.` });
     }
 
-    // Encontra o filme específico e atualiza o sentiment_result
+    // Finds movie by id and updates its sentiment_result
     const movieIndex = user.movies.findIndex(
       (movie) => movie.id === Number(movieId)
     );
@@ -104,5 +94,6 @@ module.exports = {
   getAllUsers,
   updateUser,
   getUser,
+  deleteUser,
   updateMovieSentiment,
 };

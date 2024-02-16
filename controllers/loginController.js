@@ -12,7 +12,6 @@ const handleLogin = async (req, res) => {
   if (!isUserRegistered)
     return res.status(401).json({ message: "Email or password invalid" });
 
-  // Compare submitted password with the hashed password in the database
   const isPasswordValid = await bcrypt.compare(
     userData.password,
     isUserRegistered.password
@@ -21,20 +20,21 @@ const handleLogin = async (req, res) => {
   // If user valid, authenticate user
   if (isPasswordValid) {
     const roles = Object.values(isUserRegistered.roles).filter(Boolean);
-    
+
     // create JWT
     const accessToken = jwt.sign(
       {
         UserInfo: {
-          // sub: isUserRegistered._id,
+          name: isUserRegistered.name,
+          id: isUserRegistered._id,
           email: isUserRegistered.email,
           roles: roles,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
+      { expiresIn: "1d" }
     );
-    
+
     const refreshToken = jwt.sign(
       { email: isUserRegistered.email },
       process.env.REFRESH_TOKEN_SECRET,
@@ -46,8 +46,7 @@ const handleLogin = async (req, res) => {
 
     const result = await isUserRegistered.save();
 
-    console.log(result);
-    console.log(roles);
+    console.log("handle Login", result);
 
     // Creates Secure Cookie with refresh token
     res.cookie("jwt", refreshToken, {

@@ -25,6 +25,10 @@ npm install
 npm run dev
 ```
 
-## Security Note
-
-Please note that the Google Cloud API Key is stored in an environment variable that is not included in this repository. Once the project is deployed, the deployment link will be shared here, making it easier to interact with the application. Stay tuned!
+`.env` needed to run locally:
+```javascript
+ACCESS_TOKEN_SECRET=
+REFRESH_TOKEN_SECRET=
+DATABASE_URI=mongodb+srv://...
+GOOGLE_API_KEY=
+```
